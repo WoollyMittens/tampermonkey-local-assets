@@ -38,13 +38,15 @@ In this case the following domain would be affected: www.domain.tld
 Configure the local assets in the following way:
 
 ```javascript
-  { url: 'http://localhost/path/to/styles.css', target: 'body' },
+  { url: 'http://localhost/path/to/styles.css', target: 'body', media: 'screen and (min-width: 768px)' },
   { url: 'http://localhost/path/to/component.html', target: '#main' }
 ```
 
 **url : {String}** - The local HTML or CSS asset to insert.
 
 **target : {String}** - The target container in the document.
+
+**media : {String}** - An optional media query to apply to the asset.
 
 ## Aditional functionality
 

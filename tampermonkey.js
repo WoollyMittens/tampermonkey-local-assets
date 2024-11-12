@@ -24,6 +24,8 @@
 		{ url: 'http://localhost/Tampermonkey/mycar-ecommerce/html/chargers.css', target: 'body' }
 	];
 
+	const removals = '[data-for="mycar-chargers"]';
+
 	const escapeHTMLPolicy = window.trustedTypes.createPolicy("forceInner", {
 		createHTML: (to_escape) => to_escape
 	})
@@ -42,6 +44,13 @@
 		return promise;
 	}
 
+	function deleteRemovals() {
+		const elements = document.querySelectorAll(removals);
+		for (let element of elements) {
+			element.parentNode.removeChild(element);
+		}
+	}
+
 	async function importAssets() {
 		for (let asset of assets) {
 			let target = document.querySelector(asset.target);
@@ -49,14 +58,16 @@
 			if (asset.container) asset.container.parentNode.removeChild(asset.container);
 			// load new content into target
 			asset.content = await loadAsset(asset.url);
-			asset.container = (/css$/.test(asset.url)) ? document.createElement('style') : document.createElement('div');
+			asset.container = (/css|less$/.test(asset.url)) ? document.createElement('style') : document.createElement('div');
+			if(asset.media) asset.container.setAttribute('media', asset.media);
 			asset.container.innerHTML = escapeHTMLPolicy.createHTML(asset.content);
 			target.appendChild(asset.container);
 		}
 	}
   
 	// EVENTS
-  
+
+	deleteRemovals();
 	importAssets();
   
 	window.addEventListener('keyup', function(evt) {
