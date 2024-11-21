@@ -54,12 +54,14 @@
 	async function importAssets() {
 		for (let asset of assets) {
 			let target = document.querySelector(asset.target);
+            let urls = (typeof asset.url === 'string') ? [asset.url] : asset.url;
 			// remove any the old content from the target
 			if (asset.container) asset.container.parentNode.removeChild(asset.container);
 			// load new content into target
-			asset.content = await loadAsset(asset.url);
+            asset.content = '';
+            for (let url of urls) { asset.content += await loadAsset(url) }
 			asset.container = (/css|less$/.test(asset.url)) ? document.createElement('style') : document.createElement('div');
-			if(asset.media) asset.container.setAttribute('media', asset.media);
+            if(asset.media) asset.container.setAttribute('media', asset.media);
 			asset.container.innerHTML = escapeHTMLPolicy.createHTML(asset.content);
 			target.appendChild(asset.container);
 		}
