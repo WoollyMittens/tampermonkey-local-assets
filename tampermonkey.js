@@ -20,8 +20,10 @@
   
 	// PROPERTIES
 
+	const path = 'http://localhost/Tampermonkey/mycar-ecommerce/html';
+
 	const assets = [
-		{ url: 'http://localhost/Tampermonkey/mycar-ecommerce/html/chargers.css', target: 'body' }
+		{ url: `${path}/styles.css`, target: 'body' }
 	];
 
 	const removals = '[data-for="mycar-chargers"]';
