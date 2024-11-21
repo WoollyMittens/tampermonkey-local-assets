@@ -20,13 +20,14 @@
   
 	// PROPERTIES
 
-	const path = 'http://localhost/Tampermonkey/mycar-ecommerce/html';
+	const path = 'http://localhost/MY_PROJECT_NAME';
 
 	const assets = [
-		{ url: `${path}/styles.css`, target: 'body' }
+		{ url: `${path}/MY_STYLES.css`, target: 'body' },
+		{ url: `${path}/MY_MARKUP.html`, target: 'MY_CONTAINER' }
 	];
 
-	const removals = '[data-for="mycar-chargers"]';
+	const removals = 'link[href*="OLD_STYLES"]';
 
 	const escapeHTMLPolicy = window.trustedTypes.createPolicy("forceInner", {
 		createHTML: (to_escape) => to_escape
