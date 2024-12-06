@@ -35,6 +35,11 @@
   
 	// METHODS
 
+	function cleanContent(asset) {
+		// remove inline directives for less
+		return (/less$/.test(asset.url)) ? asset.content.replace(/~"/g, '').replace(/\)";/g, ');') : asset.content;
+	}
+
 	function loadAsset(path) {
 		const promise = new Promise((resolve, reject) => {
 			GM_xmlhttpRequest({
@@ -65,7 +70,7 @@
             for (let url of urls) { asset.content += await loadAsset(url) }
 			asset.container = (/css|less$/.test(asset.url)) ? document.createElement('style') : document.createElement('div');
             if(asset.media) asset.container.setAttribute('media', asset.media);
-			asset.container.innerHTML = escapeHTMLPolicy.createHTML(asset.content);
+			asset.container.innerHTML = escapeHTMLPolicy.createHTML(cleanContent(asset));
 			target.appendChild(asset.container);
 		}
 	}
