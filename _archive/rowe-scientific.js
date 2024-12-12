@@ -20,51 +20,58 @@
 
 	// PROPERTIES
 
-    const path = 'http://localhost/Tampermonkey/rowe-scientific/css/components';
+    const domain = 'http://localhost:5500/';
+    const path = 'css/source/components/';
 
 	const assets = [
-        { url: 'http://localhost/Tampermonkey/rowe-scientific/reset/styles-m.min.css', target: 'body' },
-        { url: 'http://localhost/Tampermonkey/rowe-scientific/reset/styles-l.min.css', target: 'body', media: 'screen and (min-width: 768px)' },
+        { url: `${domain}reset/styles-m.min.css`, target: 'body' },
+        { url: `${domain}reset/styles-l.min.css`, target: 'body', media: 'screen and (min-width: 768px)' },
 		{
             url: [
-                `${path}/common.css`,
-                `${path}/slick-slider.css`,
-                `${path}/usp.css`,
-                `${path}/header.css`,
-                `${path}/header-compare.css`,
-                `${path}/header-quickorder.css`,
-                `${path}/header-guest.css`,
-                `${path}/header-registered.css`,
-                `${path}/header-hamburger.css`,
-                `${path}/header-logo.css`,
-                `${path}/header-minicart.css`,
-                `${path}/header-search.css`,
-                `${path}/navigation.css`,
-                `${path}/breadcrumbs.css`,
-                `${path}/messages.css`,
-                `${path}/page-bottom.css`,
-                `${path}/footer.css`,
-                `${path}/footer-locations.css`,
-                `${path}/footer-legal.css`,
-                `${path}/footer-copyright.css`,
-                `${path}/footer-credit.css`,
-                `${path}/home.css`,
-                `${path}/home-hero.css`,
-                `${path}/home-laboratories-we-service.css`,
-                `${path}/home-specials.css`,
-                `${path}/home-latest-news.css`,
-                `${path}/home-ctas.css`,
-                `${path}/home-our-partners.css`,
-                `${path}/category.css`,
-                `${path}/category-compare.css`,
-                `${path}/category-filter.css`,
-                `${path}/category-hero.css`,
-                `${path}/category-list.css`,
-                `${path}/category-products-grid.css`,
-                `${path}/category-products-list.css`,
-                `${path}/category-related.css`,
-                `${path}/category-toolbar.css`,
-                `${path}/category-wishlist.css`
+                `${domain}${path}common.css`,
+                `${domain}${path}slick-slider.css`,
+                `${domain}${path}usp.css`,
+                `${domain}${path}header.css`,
+                `${domain}${path}header-compare.css`,
+                `${domain}${path}header-quickorder.css`,
+                `${domain}${path}header-guest.css`,
+                `${domain}${path}header-registered.css`,
+                `${domain}${path}header-hamburger.css`,
+                `${domain}${path}header-logo.css`,
+                `${domain}${path}header-minicart.css`,
+                `${domain}${path}header-search.css`,
+                `${domain}${path}navigation.css`,
+                `${domain}${path}breadcrumbs.css`,
+                `${domain}${path}messages.css`,
+                `${domain}${path}page-bottom.css`,
+                `${domain}${path}footer.css`,
+                `${domain}${path}footer-locations.css`,
+                `${domain}${path}footer-legal.css`,
+                `${domain}${path}footer-copyright.css`,
+                `${domain}${path}footer-credit.css`,
+                `${domain}${path}home.css`,
+                `${domain}${path}home-hero.css`,
+                `${domain}${path}home-laboratories-we-service.css`,
+                `${domain}${path}home-specials.css`,
+                `${domain}${path}home-latest-news.css`,
+                `${domain}${path}home-ctas.css`,
+                `${domain}${path}home-our-partners.css`,
+                `${domain}${path}category.css`,
+                `${domain}${path}category-compare.css`,
+                `${domain}${path}category-filter.css`,
+                `${domain}${path}category-hero.css`,
+                `${domain}${path}category-list.css`,
+                `${domain}${path}category-products-grid.css`,
+                `${domain}${path}category-products-list.css`,
+                `${domain}${path}category-related.css`,
+                `${domain}${path}category-toolbar.css`,
+                `${domain}${path}category-wishlist.css`,
+                `${domain}${path}product.css`,
+                `${domain}${path}product-media.css`,
+                `${domain}${path}product-main.css`,
+                `${domain}${path}product-description.css`,
+                `${domain}${path}product-reviews.css`,
+                `${domain}${path}product-related.css`
                ],
             target: 'body'
         }
@@ -106,7 +113,8 @@
 			// load new content into target
             asset.content = '';
             for (let url of urls) { asset.content += await loadAsset(url) }
-			asset.container = (/css|less$/.test(asset.url)) ? document.createElement('style') : document.createElement('div');
+			asset.container = (/css|less$/.test(urls[0])) ? document.createElement('style') : document.createElement('div');
+            asset.container.setAttribute('data-asset', urls[0].split('/').pop());
             if(asset.media) asset.container.setAttribute('media', asset.media);
 			asset.container.innerHTML = escapeHTMLPolicy.createHTML(asset.content);
 			target.appendChild(asset.container);

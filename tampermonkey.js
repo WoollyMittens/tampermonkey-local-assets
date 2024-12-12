@@ -68,9 +68,10 @@
 			// load new content into target
             asset.content = '';
             for (let url of urls) { asset.content += await loadAsset(url) }
-			asset.container = (/css|less$/.test(asset.url)) ? document.createElement('style') : document.createElement('div');
+			asset.container = (/css|less$/.test(urls[0])) ? document.createElement('style') : document.createElement('div');
+            asset.container.setAttribute('data-asset', urls[0].split('/').pop());
             if(asset.media) asset.container.setAttribute('media', asset.media);
-			asset.container.innerHTML = escapeHTMLPolicy.createHTML(cleanContent(asset));
+			asset.container.innerHTML = escapeHTMLPolicy.createHTML(asset.content);
 			target.appendChild(asset.container);
 		}
 	}
