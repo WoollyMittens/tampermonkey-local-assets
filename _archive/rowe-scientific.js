@@ -20,58 +20,57 @@
 
 	// PROPERTIES
 
-    const domain = 'http://localhost:5500/';
-    const path = 'css/source/components/';
+    const path = 'http://localhost:5500';
 
 	const assets = [
-        { url: `${domain}reset/styles-m.min.css`, target: 'body' },
-        { url: `${domain}reset/styles-l.min.css`, target: 'body', media: 'screen and (min-width: 768px)' },
+        { url: `${path}/reset/styles-m.min.css`, target: 'body' },
+        { url: `${path}/reset/styles-l.min.css`, target: 'body', media: 'screen and (min-width: 768px)' },
 		{
             url: [
-                `${domain}${path}common.css`,
-                `${domain}${path}slick-slider.css`,
-                `${domain}${path}usp.css`,
-                `${domain}${path}header.css`,
-                `${domain}${path}header-compare.css`,
-                `${domain}${path}header-quickorder.css`,
-                `${domain}${path}header-guest.css`,
-                `${domain}${path}header-registered.css`,
-                `${domain}${path}header-hamburger.css`,
-                `${domain}${path}header-logo.css`,
-                `${domain}${path}header-minicart.css`,
-                `${domain}${path}header-search.css`,
-                `${domain}${path}navigation.css`,
-                `${domain}${path}breadcrumbs.css`,
-                `${domain}${path}messages.css`,
-                `${domain}${path}page-bottom.css`,
-                `${domain}${path}footer.css`,
-                `${domain}${path}footer-locations.css`,
-                `${domain}${path}footer-legal.css`,
-                `${domain}${path}footer-copyright.css`,
-                `${domain}${path}footer-credit.css`,
-                `${domain}${path}home.css`,
-                `${domain}${path}home-hero.css`,
-                `${domain}${path}home-laboratories-we-service.css`,
-                `${domain}${path}home-specials.css`,
-                `${domain}${path}home-latest-news.css`,
-                `${domain}${path}home-ctas.css`,
-                `${domain}${path}home-our-partners.css`,
-                `${domain}${path}category.css`,
-                `${domain}${path}category-compare.css`,
-                `${domain}${path}category-filter.css`,
-                `${domain}${path}category-hero.css`,
-                `${domain}${path}category-list.css`,
-                `${domain}${path}category-products-grid.css`,
-                `${domain}${path}category-products-list.css`,
-                `${domain}${path}category-related.css`,
-                `${domain}${path}category-toolbar.css`,
-                `${domain}${path}category-wishlist.css`,
-                `${domain}${path}product.css`,
-                `${domain}${path}product-media.css`,
-                `${domain}${path}product-main.css`,
-                `${domain}${path}product-description.css`,
-                `${domain}${path}product-reviews.css`,
-                `${domain}${path}product-related.css`
+                `${path}/css/source/components/common.css`,
+                `${path}/css/source/components/slick-slider.css`,
+                `${path}/css/source/components/usp.css`,
+                `${path}/css/source/components/header.css`,
+                `${path}/css/source/components/header-compare.css`,
+                `${path}/css/source/components/header-quickorder.css`,
+                `${path}/css/source/components/header-guest.css`,
+                `${path}/css/source/components/header-registered.css`,
+                `${path}/css/source/components/header-hamburger.css`,
+                `${path}/css/source/components/header-logo.css`,
+                `${path}/css/source/components/header-minicart.css`,
+                `${path}/css/source/components/header-search.css`,
+                `${path}/css/source/components/navigation.css`,
+                `${path}/css/source/components/breadcrumbs.css`,
+                `${path}/css/source/components/messages.css`,
+                `${path}/css/source/components/page-bottom.css`,
+                `${path}/css/source/components/footer.css`,
+                `${path}/css/source/components/footer-locations.css`,
+                `${path}/css/source/components/footer-legal.css`,
+                `${path}/css/source/components/footer-copyright.css`,
+                `${path}/css/source/components/footer-credit.css`,
+                `${path}/css/source/components/home.css`,
+                `${path}/css/source/components/home-hero.css`,
+                `${path}/css/source/components/home-laboratories-we-service.css`,
+                `${path}/css/source/components/home-specials.css`,
+                `${path}/css/source/components/home-latest-news.css`,
+                `${path}/css/source/components/home-ctas.css`,
+                `${path}/css/source/components/home-our-partners.css`,
+                `${path}/css/source/components/category.css`,
+                `${path}/css/source/components/category-compare.css`,
+                `${path}/css/source/components/category-filter.css`,
+                `${path}/css/source/components/category-hero.css`,
+                `${path}/css/source/components/category-list.css`,
+                `${path}/css/source/components/category-products-grid.css`,
+                `${path}/css/source/components/category-products-list.css`,
+                `${path}/css/source/components/category-related.css`,
+                `${path}/css/source/components/category-toolbar.css`,
+                `${path}/css/source/components/category-wishlist.css`,
+                `${path}/css/source/components/product.css`,
+                `${path}/css/source/components/product-media.css`,
+                `${path}/css/source/components/product-main.css`,
+                `${path}/css/source/components/product-description.css`,
+                `${path}/css/source/components/product-reviews.css`,
+                `${path}/css/source/components/product-related.css`
                ],
             target: 'body'
         }
@@ -85,7 +84,17 @@
 
 	// METHODS
 
+    function cleanContent(asset) {
+		let content = asset.content;
+		// remove inline directives for less
+		if ((/less$/.test(asset.url))) content = content.replace(/~"/g, '').replace(/\)";/g, ');');
+		// complete relative urls
+		content = content.replace(/url\("/g, `url("${path}/`);
+		return content;
+	}
+
 	function loadAsset(path) {
+		// load the asset asynchronously
 		const promise = new Promise((resolve, reject) => {
 			GM_xmlhttpRequest({
 				method : "GET",
@@ -98,6 +107,7 @@
 	}
 
 	function deleteRemovals() {
+		// remove the unwanted elemements
 		const elements = document.querySelectorAll(removals);
 		for (let element of elements) {
 			element.parentNode.removeChild(element);
@@ -116,7 +126,7 @@
 			asset.container = (/css|less$/.test(urls[0])) ? document.createElement('style') : document.createElement('div');
             asset.container.setAttribute('data-asset', urls[0].split('/').pop());
             if(asset.media) asset.container.setAttribute('media', asset.media);
-			asset.container.innerHTML = escapeHTMLPolicy.createHTML(asset.content);
+			asset.container.innerHTML = escapeHTMLPolicy.createHTML(cleanContent(asset));
 			target.appendChild(asset.container);
 		}
 	}

@@ -35,12 +35,17 @@
   
 	// METHODS
 
-	function cleanContent(asset) {
+    function cleanContent(asset) {
+		let content = asset.content;
 		// remove inline directives for less
-		return (/less$/.test(asset.url)) ? asset.content.replace(/~"/g, '').replace(/\)";/g, ');') : asset.content;
+		if ((/less$/.test(asset.url))) content = content.replace(/~"/g, '').replace(/\)";/g, ');');
+		// complete relative urls
+		content = content.replace(/url\("/g, `url("${path}/`);
+		return content;
 	}
 
 	function loadAsset(path) {
+		// load the asset asynchronously
 		const promise = new Promise((resolve, reject) => {
 			GM_xmlhttpRequest({
 				method : "GET",
@@ -53,6 +58,7 @@
 	}
 
 	function deleteRemovals() {
+		// remove the unwanted elemements
 		const elements = document.querySelectorAll(removals);
 		for (let element of elements) {
 			element.parentNode.removeChild(element);
@@ -71,7 +77,7 @@
 			asset.container = (/css|less$/.test(urls[0])) ? document.createElement('style') : document.createElement('div');
             asset.container.setAttribute('data-asset', urls[0].split('/').pop());
             if(asset.media) asset.container.setAttribute('media', asset.media);
-			asset.container.innerHTML = escapeHTMLPolicy.createHTML(asset.content);
+			asset.container.innerHTML = escapeHTMLPolicy.createHTML(cleanContent(asset));
 			target.appendChild(asset.container);
 		}
 	}
