@@ -40,7 +40,8 @@
 		// remove inline directives for less
 		if ((/less$/.test(asset.url))) content = content.replace(/~"/g, '').replace(/\)";/g, ');');
 		// complete relative urls
-		content = content.replace(/url\("/g, `url("${path}/`);
+		content = content.replace(/url\("..\//g, `url("${path}/`);
+		content = content.replace(/url\('..\//g, `url('${path}/`);
 		return content;
 	}
 

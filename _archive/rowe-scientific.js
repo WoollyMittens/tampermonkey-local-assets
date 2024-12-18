@@ -27,6 +27,7 @@
         { url: `${path}/reset/styles-l.min.css`, target: 'body', media: 'screen and (min-width: 768px)' },
 		{
             url: [
+                `${path}/css/source/components/fonts.css`,
                 `${path}/css/source/components/common.css`,
                 `${path}/css/source/components/slick-slider.css`,
                 `${path}/css/source/components/usp.css`,
@@ -70,7 +71,11 @@
                 `${path}/css/source/components/product-main.css`,
                 `${path}/css/source/components/product-description.css`,
                 `${path}/css/source/components/product-reviews.css`,
-                `${path}/css/source/components/product-related.css`
+                `${path}/css/source/components/product-related.css`,
+                `${path}/css/source/components/checkout-cart.css`,
+                `${path}/css/source/components/checkout-address.css`,
+                `${path}/css/source/components/checkout-payment.css`,
+                `${path}/css/source/components/checkout-summary.css`
                ],
             target: 'body'
         }
@@ -89,7 +94,8 @@
 		// remove inline directives for less
 		if ((/less$/.test(asset.url))) content = content.replace(/~"/g, '').replace(/\)";/g, ');');
 		// complete relative urls
-		content = content.replace(/url\("/g, `url("${path}/`);
+		content = content.replace(/url\("..\//g, `url("${path}/`);
+		content = content.replace(/url\('..\//g, `url('${path}/`);
 		return content;
 	}
 
