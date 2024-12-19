@@ -72,10 +72,12 @@
                 `${path}/css/source/components/product-description.css`,
                 `${path}/css/source/components/product-reviews.css`,
                 `${path}/css/source/components/product-related.css`,
-                `${path}/css/source/components/checkout-cart.css`,
+                `${path}/css/source/components/cart.css`,
+                `${path}/css/source/components/checkout.css`,
                 `${path}/css/source/components/checkout-address.css`,
                 `${path}/css/source/components/checkout-payment.css`,
-                `${path}/css/source/components/checkout-summary.css`
+                `${path}/css/source/components/checkout-summary.css`,
+                `${path}/css/source/components/checkout-authentication.css`
                ],
             target: 'body'
         }
